@@ -1,10 +1,13 @@
 var restify = require('restify');
 var Blockchain = require("./blockchain.js");
+var Miner = require("./miner.js");
 
 var blockchain = new Blockchain(2);
 
-blockchain.createAccount("nelo");
+var nelo = blockchain.createAccount("nelo");
 blockchain.createAccount("analia");
+
+blockchain.attachMiner(new Miner(nelo));
 
 blockchain.minePendingTransaction("nelo");
 

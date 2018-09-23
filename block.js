@@ -15,18 +15,6 @@ class Block {
         var hash = CryptoJS.SHA256(middle).toString();
         return hash;
     }
-
-    mine(difficulty) {
-        const zeros = Array(difficulty + 1).join("0");
-
-        var count = 1;
-        while (!this.hash || this.hash.substring(0, difficulty) !== zeros) {
-            this.key++;
-            this.hash = this.calculateHash();
-
-            console.log("intento #", count++);
-        }
-    }
 }
 
 module.exports = Block;

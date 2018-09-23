@@ -1,10 +1,12 @@
 var Block = require("./block.js")
 var Transaction = require("./transaction.js")
 var Account = require("./account.js");
+var Miner = require("./miner.js");
 
 class Blockchain {
     constructor(difficulty) {
         this.accounts = [];
+        this.miners = [];
         this.pendingTransactions = [];
         this.difficulty = difficulty;
         this.miningReward = 100; // reward to miner
@@ -16,9 +18,16 @@ class Blockchain {
     generateGenesisBlock() {
         let block = new Block(Date.now(), "genesis block");
         block.index = 0;
-        block.mine(this.difficulty);
 
+        var miner = new Miner(null);
+        miner.mine(block, this.difficulty);
+
+        console.log("genesis block mined!");
         return block;
+    }
+
+    attachMiner(miner) {
+        this.miners.push(miner);
     }
 
     createAccount(name) {
@@ -61,7 +70,8 @@ class Blockchain {
         block.index = last.index + 1;
         block.previousHash = last.hash;
 
-        block.mine(this.difficulty);
+        for (let miner of this.miners)
+            miner.mine(block, this.difficulty);
 
         console.log("Block mined!");
         this.chain.push(block);
