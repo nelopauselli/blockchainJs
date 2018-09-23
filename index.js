@@ -1,5 +1,4 @@
-var express = require("express");
-var bodyParser = require('body-parser');
+var restify = require('restify');
 
 var Blockchain = require("./blockchain.js");
 
@@ -23,38 +22,41 @@ console.log("analia balance: ", blockchain.getBalanceOfAddress("analia"));
 console.log(`Chain is valid? ${blockchain.isValid() ? 'yes':'no'}`);
 
 var initHttpServer = () => {
-    var app = express();
-    app.use(bodyParser.json());
+    var server = restify.createServer();
 
-    app.get('/blocks', (req, res) => res.json(blockchain.chain));
-    app.post('/transaction', (req, res) => {
+    server.get('/blocks', (req, res) => res.json(blockchain.chain));
+    server.post('/account', (req, res) => {
+        var account = blockchain.createAcount(req.body.owner, req.body.accountName);
+        res.json(account);
+    });
+    server.post('/transaction', (req, res) => {
         var transaction = blockchain.createTransaction(req.body.from, req.body.to, req.body.ammount);
         //broadcast(responseLatestMsg());
         res.json(transaction);
     });
-    app.get('/transaction', (req, res) => {
+    server.get('/transaction', (req, res) => {
         var pending = blockchain.pendingTransactions;
         res.json(pending);
     });
-    app.post('/mineBlock', (req, res) => {
+    server.post('/mineBlock', (req, res) => {
         var block = blockchain.minePendingTransaction(req.body.miningRewardAddress);
         //broadcast(responseLatestMsg());
         res.status(201).json(block);
     });
-    app.get('/balance/:address', (req, res) => {
+    server.get('/balance/:address', (req, res) => {
         var pending = blockchain.getBalanceOfAddress(req.params.address);
         res.json(pending);
     });
-    app.get('/peers', (req, res) => {
+    server.get('/peers', (req, res) => {
         res.send(sockets.map(s => s._socket.remoteAddress + ':' + s._socket.remotePort));
     });
-    app.post('/addPeer', (req, res) => {
+    server.post('/addPeer', (req, res) => {
         connectToPeers([req.body.peer]);
         res.send();
     });
 
-    http_port = 5000;
-    app.listen(http_port, () => console.log('Listening http on port: ' + http_port));
+    let port = 5000;
+    server.listen(port, () => console.log('Api listening http on port: ' + port));
 };
 
 initHttpServer();
