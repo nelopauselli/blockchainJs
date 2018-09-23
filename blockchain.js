@@ -2,12 +2,13 @@ var Block = require("./block.js")
 var Transaction = require("./transaction.js")
 var Account = require("./account.js");
 var Miner = require("./miner.js");
+var MinerReward=require("./minerReward.js");
 
 class Blockchain {
     constructor(difficulty) {
         this.accounts = [];
         this.miners = [];
-        this.pendingTransactions = [];
+        this.pendingChunks = [];
         this.difficulty = difficulty;
         this.miningReward = 100; // reward to miner
         this.gift = 23; // gift to new accounts
@@ -34,13 +35,14 @@ class Blockchain {
         var account = new Account(name);
         this.accounts.push(account);
 
+        this.pendingChunks.push({ type: 'create account', data: account });
         this.createTransaction(null, account.name, this.gift)
         return account;
     }
 
     createTransaction(from, to, ammount) {
         let transaction = new Transaction(from, to, ammount);
-        this.pendingTransactions.push(transaction);
+        this.pendingChunks.push(transaction);
 
         console.log('transaction added: ' + JSON.stringify(transaction));
 
@@ -50,20 +52,20 @@ class Blockchain {
     getBalanceOfAddress(account) {
         let balance = 0;
         for (const block of this.chain.slice(1)) {
-            for (const transaction of block.data) {
-                if (transaction.from === account)
-                    balance -= transaction.ammount;
-                else if (transaction.to === account)
-                    balance += transaction.ammount;
+            for (const chunk of block.data) {
+                if (chunk.data.from === account)
+                    balance -= chunk.data.ammount;
+                else if (chunk.data.to === account)
+                    balance += chunk.data.ammount;
             }
         }
         return balance;
     }
 
     minePendingTransaction(miningRewardAddress) {
-        console.log(`mining ${this.pendingTransactions.length} transactions`);
+        console.log(`mining ${this.pendingChunks.length} chunks`);
 
-        var block = new Block(Date.now(), this.pendingTransactions);
+        var block = new Block(Date.now(), this.pendingChunks);
 
         var last = this.getLatestBlock() || { index: -1, hash: "" };
 
@@ -76,8 +78,8 @@ class Blockchain {
         console.log("Block mined!");
         this.chain.push(block);
 
-        this.pendingTransactions = [
-            new Transaction(null, miningRewardAddress, this.miningReward)
+        this.pendingChunks = [
+            new MinerReward(miningRewardAddress, this.miningReward)
         ];
 
         return block;

@@ -36,7 +36,7 @@ var initHttpServer = () => {
         res.json(transaction);
     });
     server.get('/transaction', (req, res) => {
-        var pending = blockchain.pendingTransactions;
+        var pending = blockchain.pendingChunks;
         res.json(pending);
     });
     server.post('/mineBlock', (req, res) => {
