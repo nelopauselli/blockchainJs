@@ -1,11 +1,14 @@
 var Block = require("./block.js")
 var Transaction = require("./transaction.js")
+var Account = require("./account.js");
 
 class Blockchain {
     constructor(difficulty) {
+        this.accounts = [];
         this.pendingTransactions = [];
         this.difficulty = difficulty;
-        this.miningReward = 100;
+        this.miningReward = 100; // reward to miner
+        this.gift = 23; // gift to new accounts
 
         this.chain = [this.generateGenesisBlock()];
     }
@@ -16,6 +19,14 @@ class Blockchain {
         block.mine(this.difficulty);
 
         return block;
+    }
+
+    createAccount(name) {
+        var account = new Account(name);
+        this.accounts.push(account);
+
+        this.createTransaction(null, account.name, this.gift)
+        return account;
     }
 
     createTransaction(from, to, ammount) {
@@ -66,9 +77,9 @@ class Blockchain {
         return this.chain[this.chain.length - 1];
     }
 
-    isValid(){
-        for(const block of this.chain){
-            if(!this.isValidBlock(block)){
+    isValid() {
+        for (const block of this.chain) {
+            if (!this.isValidBlock(block)) {
                 return false;
             }
         }
