@@ -11,12 +11,6 @@ blockchain.minePendingTransaction("nelo");
 for (let account of blockchain.accounts)
     console.log(`${account.name} balance: ${blockchain.getBalanceOfAddress(account.name)}`);
 
-blockchain.minePendingTransaction("nelo");
-
-for (let account of blockchain.accounts)
-    console.log(`${account.name} balance: ${blockchain.getBalanceOfAddress(account.name)}`);
-
-
 console.log(`Chain is valid? ${blockchain.isValid() ? 'yes' : 'no'}`);
 
 var initHttpServer = () => {
