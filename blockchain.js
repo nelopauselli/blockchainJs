@@ -1,5 +1,4 @@
 var Block = require("./block.js")
-var Miner = require("./miner.js");
 var MinerReward = require("./minerReward.js");
 
 class Blockchain {
@@ -41,24 +40,21 @@ class Blockchain {
         return balance;
     }
 
-    minePendingTransaction(miningRewardAddress) {
+    minePendingTransaction() {
         console.log(`mining ${this.pendingDocuments.length} chunks`);
-
-        var block = new Block(Date.now(), this.pendingDocuments);
-
         var last = this.getLatestBlock() || { index: -1, hash: "" };
 
+        var block = new Block(Date.now(), this.pendingDocuments);
         block.index = last.index + 1;
         block.previousHash = last.hash;
 
-        let miner = this.miners[0];
+        let miner = this.miners[0]; // el único minero que puede haber por ahora
         miner.mine(block, this.difficulty);
 
         console.log("Block mined!");
         this.chain.push(block);
         this.pendingDocuments = [];
 
-        console.log(miner);
         var reward = new MinerReward(miner.account.name, this.miningReward);
         this.add(reward);
 
