@@ -51,14 +51,15 @@ class Blockchain {
         block.index = last.index + 1;
         block.previousHash = last.hash;
 
-        for (let miner of this.miners)
-            miner.mine(block, this.difficulty);
+        let miner = this.miners[0];
+        miner.mine(block, this.difficulty);
 
         console.log("Block mined!");
         this.chain.push(block);
         this.pendingDocuments = [];
 
-        var reward = new MinerReward(miningRewardAddress, this.miningReward);
+        console.log(miner);
+        var reward = new MinerReward(miner.account.name, this.miningReward);
         this.add(reward);
 
         return block;

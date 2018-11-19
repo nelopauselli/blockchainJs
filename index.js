@@ -10,8 +10,7 @@ var nelo = criptoCoin.createAccount("nelo");
 criptoCoin.createAccount("analia");
 
 blockchain.attachMiner(new Miner(nelo));
-
-blockchain.minePendingTransaction("nelo");
+blockchain.minePendingTransaction();
 
 for (let account of criptoCoin.accounts)
     console.log(`${account.name} balance: ${blockchain.getBalanceOfAddress(account.name)}`);
