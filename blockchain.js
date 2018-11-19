@@ -1,71 +1,50 @@
 var Block = require("./block.js")
-var Transaction = require("./transaction.js")
-var Account = require("./account.js");
 var Miner = require("./miner.js");
-var MinerReward=require("./minerReward.js");
+var MinerReward = require("./minerReward.js");
 
 class Blockchain {
     constructor(difficulty) {
-        this.accounts = [];
         this.miners = [];
-        this.pendingChunks = [];
+        this.pendingDocuments = [];
         this.difficulty = difficulty;
         this.miningReward = 100; // reward to miner
-        this.gift = 23; // gift to new accounts
 
-        this.chain = [this.generateGenesisBlock()];
-    }
+        this.chain = [];
 
-    generateGenesisBlock() {
-        let block = new Block(Date.now(), "genesis block");
-        block.index = 0;
-
-        var miner = new Miner(null);
-        miner.mine(block, this.difficulty);
-
-        console.log("genesis block mined!");
-        return block;
+        this.add({ type: 'genesis block' })
     }
 
     attachMiner(miner) {
         this.miners.push(miner);
     }
 
-    createAccount(name) {
-        var account = new Account(name);
-        this.accounts.push(account);
+    add(document) {
+        this.pendingDocuments.push(document);
 
-        this.pendingChunks.push({ type: 'create account', data: account });
-        this.createTransaction(null, account.name, this.gift)
-        return account;
-    }
+        console.log('document added: ' + JSON.stringify(document));
 
-    createTransaction(from, to, ammount) {
-        let transaction = new Transaction(from, to, ammount);
-        this.pendingChunks.push(transaction);
-
-        console.log('transaction added: ' + JSON.stringify(transaction));
-
-        return transaction;
+        return document;
     }
 
     getBalanceOfAddress(account) {
         let balance = 0;
-        for (const block of this.chain.slice(1)) {
-            for (const chunk of block.data) {
-                if (chunk.data.from === account)
-                    balance -= chunk.data.ammount;
-                else if (chunk.data.to === account)
-                    balance += chunk.data.ammount;
+        for (const block of this.chain) {
+            for (const document of block.documents) {
+                if (document.data) {
+                    if (document.data.from === account)
+                        balance -= document.data.ammount;
+                    else if (document.data.to === account)
+                        balance += document.data.ammount;
+                }
             }
         }
         return balance;
     }
 
     minePendingTransaction(miningRewardAddress) {
-        console.log(`mining ${this.pendingChunks.length} chunks`);
+        console.log(`mining ${this.pendingDocuments.length} chunks`);
 
-        var block = new Block(Date.now(), this.pendingChunks);
+        var block = new Block(Date.now(), this.pendingDocuments);
 
         var last = this.getLatestBlock() || { index: -1, hash: "" };
 
@@ -77,16 +56,18 @@ class Blockchain {
 
         console.log("Block mined!");
         this.chain.push(block);
+        this.pendingDocuments = [];
 
-        this.pendingChunks = [
-            new MinerReward(miningRewardAddress, this.miningReward)
-        ];
+        var reward = new MinerReward(miningRewardAddress, this.miningReward);
+        this.add(reward);
 
         return block;
     }
 
     getLatestBlock() {
-        return this.chain[this.chain.length - 1];
+        return this.chain.length !== 0
+            ? this.chain[this.chain.length - 1]
+            : undefined;
     }
 
     isValid() {
