@@ -1,36 +1,44 @@
-const Account = require('./../account');
-const Miner = require('./../miner');
+const Miner = require('./../builtInMiner');
 
 describe("Blockchain", function () {
     var Blochchain = require('../blockchain');
 
     beforeEach(function () {
-        blochchain = new Blochchain(2);
+        blochchain = new Blochchain(new Miner("miner-test"), 2);
     });
 
     it("Blockchain empty", function () {
         expect(2).toEqual(blochchain.difficulty);
-        expect(0).toEqual(blochchain.miners.length);
-        expect(1).toEqual(blochchain.pendingDocuments.length);
+        expect(0).toEqual(blochchain.pendingDocuments.length);
         expect(100).toEqual(blochchain.miningReward);
 
-        var genesis = blochchain.pendingDocuments[0];
+        expect(1).toEqual(blochchain.chain.length);
+        var block = blochchain.chain[0];
+
+        expect(2).toEqual(block.documents.length);
+
+        var genesis =block.documents[0];
         expect('genesis block').toEqual(genesis.type);
+
+        var minerReawrd = block.documents[1];
+        expect('miner reward').toEqual(minerReawrd.type);
+        expect(100).toEqual(minerReawrd.data.ammount);
     });
 
-    it("create an account", function () {
-        expect(0).toEqual(blochchain.getBalanceOfAddress("test"));
+    it("write a document", function () {
+        blochchain.add({type: 'info', data: {text: 'Hola desde el blockchain'}});
+
+        expect(1).toEqual(blochchain.chain.length); // genesis block
+        expect(1).toEqual(blochchain.pendingDocuments.length);
     });
 
-    it("create an account and mine pending transaction", function () {
+    it("write a document and mine", function () {
 
-        let account = new Account("test");
-        let miner = new Miner(account);
+        blochchain.add({ type: 'info', data: { text: 'Hola desde el blockchain' } });
+        blochchain.minePendingTransaction();
 
-        blochchain.attachMiner(miner);
-        blochchain.minePendingTransaction("test");
-        blochchain.minePendingTransaction("test");
-
-        expect(100).toEqual(blochchain.getBalanceOfAddress("test"));
+        expect(2).toEqual(blochchain.chain.length); // genesis block + document
+        expect(0).toEqual(blochchain.pendingDocuments.length);
     });
+
 });

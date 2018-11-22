@@ -1,7 +1,6 @@
 class Account {
-    constructor(name, balance) {
+    constructor(name) {
         this.name = name;
-        this.balance = balance;
     }
 }
 

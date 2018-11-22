@@ -1,15 +1,14 @@
 var restify = require('restify');
 var Blockchain = require("./blockchain.js");
-var Miner = require("./miner.js");
+var Miner = require("./builtInMiner");
 var CriptoCoin = require("./criptoCoin");
 
-var blockchain = new Blockchain(2);
+var blockchain = new Blockchain(new Miner("nelo"), 2);
 var criptoCoin = new CriptoCoin(blockchain);
 
-var nelo = criptoCoin.createAccount("nelo");
+criptoCoin.createAccount("nelo");
 criptoCoin.createAccount("analia");
 
-blockchain.attachMiner(new Miner(nelo));
 blockchain.minePendingTransaction();
 
 for (let account of criptoCoin.accounts)
@@ -41,7 +40,7 @@ var initHttpServer = () => {
         res.json(pending);
     });
     server.post('/mineBlock', (req, res) => {
-        var block = blockchain.minePendingTransaction(req.body.miningRewardAddress);
+        var block = blockchain.minePendingTransaction();
         //broadcast(responseLatestMsg());
         res.send(201, block);
     });

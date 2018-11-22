@@ -2,19 +2,16 @@ var Block = require("./block.js")
 var MinerReward = require("./minerReward.js");
 
 class Blockchain {
-    constructor(difficulty) {
-        this.miners = [];
+    constructor(miner, difficulty) {
+        this.miner = miner;
         this.pendingDocuments = [];
         this.difficulty = difficulty;
         this.miningReward = 100; // reward to miner
 
         this.chain = [];
 
-        this.add({ type: 'genesis block' })
-    }
-
-    attachMiner(miner) {
-        this.miners.push(miner);
+        this.add({ type: 'genesis block' });
+        this.minePendingTransaction(); // mine genesis block
     }
 
     add(document) {
@@ -41,22 +38,27 @@ class Blockchain {
     }
 
     minePendingTransaction() {
-        console.log(`mining ${this.pendingDocuments.length} chunks`);
+        if (this.pendingDocuments.length==0){
+            console.log("no documents to mine");
+            return;
+        }
+
+        var reward = new MinerReward(this.miner.account, this.miningReward);
+        this.add(reward);
+
+        console.log(`mining ${this.pendingDocuments.length} documents`);
         var last = this.getLatestBlock() || { index: -1, hash: "" };
 
         var block = new Block(Date.now(), this.pendingDocuments);
         block.index = last.index + 1;
         block.previousHash = last.hash;
 
-        let miner = this.miners[0]; // el único minero que puede haber por ahora
-        miner.mine(block, this.difficulty);
+        this.miner.mine(block, this.difficulty);
 
         console.log("Block mined!");
         this.chain.push(block);
         this.pendingDocuments = [];
 
-        var reward = new MinerReward(miner.account.name, this.miningReward);
-        this.add(reward);
 
         return block;
     }

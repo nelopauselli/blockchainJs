@@ -1,4 +1,4 @@
-class Miner {
+class BuiltInMiner {
     constructor(account) {
         this.account = account;
     }
@@ -18,4 +18,4 @@ class Miner {
     }
 }
 
-module.exports = Miner;
+module.exports = BuiltInMiner;
