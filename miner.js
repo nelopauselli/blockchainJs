@@ -8,7 +8,7 @@ class Miner {
 
         var count = 1;
         while (!block.hash || block.hash.substring(0, difficulty) !== zeros) {
-            block.key++;
+            block.nonce++;
             block.hash = block.calculateHash();
 
             console.log(`intento #${count++}`);
