@@ -1,6 +1,8 @@
+const Q = require("q");
 var restify = require('restify');
 var Blockchain = require("./blockchain.js");
 var Miner = require("./builtInMiner");
+var Transaction = require("./transaction");
 
 class BlockchainNode {
 
@@ -9,6 +11,8 @@ class BlockchainNode {
     }
 
     run(port) {
+        var defered = Q.defer();
+
         console.log(`Chain is valid? ${this.blockchain.isValid() ? 'yes' : 'no'}`);
 
         var server = restify.createServer();
@@ -25,7 +29,7 @@ class BlockchainNode {
         server.get('/blocks', (req, res) => res.json(this.blockchain.chain));
 
         server.post('/transaction', (req, res) => {
-            var transaction = this.blockchain.add(req.body.from, req.body.to, req.body.ammount);
+            var transaction = this.blockchain.add(new Transaction(req.body.from, req.body.to, req.body.ammount));
             //broadcast(responseLatestMsg());
             res.json(transaction);
         });
@@ -51,7 +55,12 @@ class BlockchainNode {
             res.send();
         });
 
-        server.listen(port, () => console.log('Api listening http on port: ' + port));
+        server.listen(port, function () {
+            console.log('Api listening http on port: ' + port);
+            defered.resolve();
+        });
+
+        return defered.promise;
     };
 }
 

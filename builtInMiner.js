@@ -11,7 +11,7 @@ class BuiltInMiner {
             block.nonce++;
             block.hash = block.calculateHash();
 
-            console.log(`intento #${count++}`);
+            //console.log(`intento #${count++}`);
         }
 
         return block;
