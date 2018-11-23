@@ -9,16 +9,20 @@ class Blockchain {
         this.miningReward = 100; // reward to miner
 
         this.chain = [];
+    }
 
+    createGenesisBlock(){
         this.add({ type: 'genesis block' });
         this.minePendingTransaction(); // mine genesis block
     }
 
+    find(document){
+        var other = this.pendingDocuments.find(d=>d == document);
+        return other;
+    }
+
     add(document) {
         this.pendingDocuments.push(document);
-
-        console.log('document added: ' + JSON.stringify(document));
-
         return document;
     }
 
@@ -58,7 +62,6 @@ class Blockchain {
         console.log("Block mined!");
         this.chain.push(block);
         this.pendingDocuments = [];
-
 
         return block;
     }
