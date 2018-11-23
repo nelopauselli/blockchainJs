@@ -40,5 +40,4 @@ describe("Blockchain", function () {
         expect(2).toEqual(blochchain.chain.length); // genesis block + document
         expect(0).toEqual(blochchain.pendingDocuments.length);
     });
-
 });
