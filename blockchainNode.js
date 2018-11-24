@@ -42,10 +42,13 @@ class BlockchainNode {
 
     mine(){
         this.blockchain.minePendingTransaction();
-        
         //TODO: avisar a los peers que miné un bloque!
     }
 
+    getBalanceOfAddress(account){
+        return this.blockchain.getBalanceOfAddress(account);
+    }
+    
     run() {
 
         console.log(`Chain is valid? ${this.blockchain.isValid() ? 'yes' : 'no'}`);

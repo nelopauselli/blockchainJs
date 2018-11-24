@@ -11,13 +11,13 @@ class Blockchain {
         this.chain = [];
     }
 
-    createGenesisBlock(){
+    createGenesisBlock() {
         this.add({ type: 'genesis block' });
         this.minePendingTransaction(); // mine genesis block
     }
 
-    find(document){
-        var other = this.pendingDocuments.find(d=>d == document);
+    find(document) {
+        var other = this.pendingDocuments.find(d => d == document);
         return other;
     }
 
@@ -30,19 +30,25 @@ class Blockchain {
         let balance = 0;
         for (const block of this.chain) {
             for (const document of block.documents) {
-                if (document.data) {
-                    if (document.data.from === account)
-                        balance -= document.data.ammount;
-                    else if (document.data.to === account)
-                        balance += document.data.ammount;
-                }
+                if (document.from === account)
+                    balance -= document.ammount;
+                else if (document.to === account)
+                    balance += document.ammount;
             }
         }
+
+        for (const document of this.pendingDocuments) {
+            if (document.from === account)
+                balance -= document.ammount;
+            else if (document.to === account)
+                balance += document.ammount;
+        }
+
         return balance;
     }
 
     minePendingTransaction() {
-        if (this.pendingDocuments.length==0){
+        if (this.pendingDocuments.length == 0) {
             console.log("no documents to mine");
             return;
         }

@@ -1,10 +1,8 @@
 class MinerReward {
     constructor(account, ammount) {
         this.type = 'miner reward';
-        this.data = {
-            to: account,
-            ammount: ammount
-        };
+        this.to = account;
+        this.ammount = ammount;
     }
 }
 
