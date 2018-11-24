@@ -1,10 +1,11 @@
-var Node = require("./blockchainNode");
+const Node = require("./blockchainNode");
+const Transaction = require("./transaction");
 
 var node1 = new Node("nelo");
 var node2 = new Node("pedro", node1);
 
-node1.add({ type: 'transaction', from: "nelo", to: "juan", ammount: 23 });
-node2.add({ type: 'transaction', from: "nelo", to: "pedro", ammount: 17 });
+node1.add(new Transaction("nelo", "juan", 23));
+node1.add(new Transaction("nelo", "pedro", 17));
 
 node1.mine();
 
