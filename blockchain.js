@@ -1,6 +1,6 @@
 var Block = require("./block.js")
 var MinerReward = require("./minerReward.js");
-const Genesis=require("./genesis");
+const Genesis = require("./genesis");
 const uuid = require('uuid/v4');
 
 class Blockchain {
@@ -24,7 +24,7 @@ class Blockchain {
     }
 
     add(document) {
-        document.id=uuid();
+        document.id = uuid();
         this.pendingDocuments.push(document);
         return document;
     }
@@ -36,7 +36,7 @@ class Blockchain {
         this.chain.push(block);
 
         // quitamos del pendiente todos los documentos incluidos en el bloque minado
-        for (var document of block.documents){
+        for (var document of block.documents) {
             this.pendingDocuments = this.pendingDocuments.filter(d => d.id != document.id);
         }
     }

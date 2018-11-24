@@ -4,6 +4,7 @@ const Transaction = require("./transaction");
 // creando 2 nodos de la red
 var node1 = new Node("nelo");
 var node2 = new Node("pedro", node1);
+var node3 = new Node("jose", node1);
 
 // agregando transacciones a la red por distintos nodos
 node1.add(new Transaction("nelo", "juan", 23));
@@ -25,8 +26,15 @@ for(let account of ["nelo", "pedro", "juan"]){
 }
 
 // mostramos toda la blockchain
-for (let block of node1.blockchain.chain) {
+for (let block of node3.blockchain.chain) {
+    console.log(`block #${block.index}:`)
     for (let document of block.documents){
-        console.log(document);
+        console.log(`\t${JSON.stringify(document)}`);
     }
+}
+
+// mostramos los bloques pendientes de minar
+console.log(`pending documents:`)
+for (let document of node3.blockchain.pendingDocuments) {
+    console.log(`\t${JSON.stringify(document)}`);
 }
