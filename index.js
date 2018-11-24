@@ -1,10 +1,10 @@
 const Node = require("./node");
 const Transaction = require("./transaction");
 
-// creando 2 nodos de la red
+// creando 3 nodos de la red
 var node1 = new Node("nelo");
-var node2 = new Node("pedro", node1);
-var node3 = new Node("jose", node1);
+var node2 = new Node("pedro", node1); // le pasamos 1 peer donde acoplarse a la red
+var node3 = new Node("jose", node1); // le pasamos 1 peer donde acoplarse a la red
 
 // agregando transacciones a la red por distintos nodos
 node1.add(new Transaction("nelo", "juan", 23));
