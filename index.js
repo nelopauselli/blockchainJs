@@ -27,11 +27,14 @@ for (let account of ["nelo", "pedro", "juan", "jose", "rewards-stock"]) {
 }
 
 // mostramos toda la blockchain desde el nodo3
+console.log('-----')
 for (let block of node3.blockchain.chain) {
-    console.log(`block #${block.index}:`)
+    console.log(`block #${block.index} (previousHash: ${block.previousHash || "null"}): [`)
     for (let document of block.documents) {
         console.log(`\t${JSON.stringify(document)}`);
     }
+    console.log(`] => hash: ${block.hash}`);
+    console.log('-----')
 }
 
 // mostramos los bloques pendientes de minar
