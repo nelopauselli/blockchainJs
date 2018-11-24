@@ -1,5 +1,4 @@
 const Q = require("q");
-var restify = require('restify');
 var Blockchain = require("./blockchain.js");
 var Miner = require("./builtInMiner");
 var Transaction = require("./transaction");
