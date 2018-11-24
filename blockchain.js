@@ -8,7 +8,7 @@ class Blockchain {
         this.miner = miner;
         this.pendingDocuments = [];
         this.difficulty = difficulty;
-        this.miningReward = 25; // reward to miner
+        this.miningReward = 100; // reward to miner
 
         this.chain = [];
     }
