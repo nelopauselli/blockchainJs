@@ -1,5 +1,5 @@
 # PoC of blockchain
-Esta es una Prueba de Conceptos referidos a una blockchain descentralizada
+Esta es una Prueba de Conceptos (PoC) referidos a una blockchain descentralizada. Es una PoC porque está orientada a ejemplificar el funcionamiento evitando aspectos que sí deberían ser tenidos en cuenta en una red real.
 
 ## Aspectos claves
 * La red se organiza en nodos (_node_), cada nodo tiene su propia copia de la **blockchain**.
