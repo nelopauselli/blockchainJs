@@ -1,4 +1,4 @@
-var Node = require("./blockchainNode");
+var Node = require("./node");
 
 describe("Blockchain nodes", function () {
     it("create two node", function () {

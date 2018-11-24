@@ -2,7 +2,7 @@ var Blockchain = require("./blockchain.js");
 var Miner = require("./builtInMiner");
 var Peers = require("./peers");
 
-class BlockchainNode {
+class Node {
 
     constructor(accountRewards, peer) {
         this.id = accountRewards;
@@ -118,4 +118,4 @@ class BlockchainNode {
     }
 }
 
-module.exports = BlockchainNode;
+module.exports = Node;

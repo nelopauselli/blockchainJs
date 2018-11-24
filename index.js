@@ -1,4 +1,4 @@
-const Node = require("./blockchainNode");
+const Node = require("./node");
 const Transaction = require("./transaction");
 
 // creando 2 nodos de la red
@@ -20,15 +20,15 @@ node2.mine(); // mina la transacción que acaba de entrar por el nodo-1
 node1.add(new Transaction("juan", "nelo", 1));
 
 // recorremos las cuentas y mostramos el balance en uno y otro nodo. Debería ser el mismo
-for(let account of ["nelo", "pedro", "juan"]){
+for (let account of ["nelo", "pedro", "juan"]) {
     console.log(`the balance of '${account}' in 'node1' is ${node1.getBalanceOfAddress(account)}`);
     console.log(`the balance of '${account}' in 'node2' is ${node2.getBalanceOfAddress(account)}`);
 }
 
-// mostramos toda la blockchain
+// mostramos toda la blockchain desde el nodo3
 for (let block of node3.blockchain.chain) {
     console.log(`block #${block.index}:`)
-    for (let document of block.documents){
+    for (let document of block.documents) {
         console.log(`\t${JSON.stringify(document)}`);
     }
 }
