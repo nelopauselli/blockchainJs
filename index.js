@@ -12,3 +12,9 @@ node1.mine();
 
 console.log(`the balance of 'nelo' in 'node1' is ${node1.getBalanceOfAddress('nelo')}`);
 console.log(`the balance of 'nelo' in 'node2' is ${node2.getBalanceOfAddress('nelo')}`);
+
+for (let block of node1.blockchain.chain) {
+    for (let document of block.documents){
+        console.log(document);
+    }
+}

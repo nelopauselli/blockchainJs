@@ -34,18 +34,26 @@ class BlockchainNode {
             this.peers.add(message.node);
         } else if (message.type == 'new document') {
             this.add(message.document);
+        } else if (message.type == 'block mined') {
+            this.blockchain.addBlock(message.block);
         }
     }
 
-    mine(){
-        this.blockchain.minePendingTransaction();
-        //TODO: avisar a los peers que miné un bloque!
+    getBlocks(startAt, callback) {
+        var blocks = this.blockchain.chain.slice(startAt);
+        callback(blocks);
     }
 
-    getBalanceOfAddress(account){
+    mine() {
+        var block = this.blockchain.minePendingTransaction();
+        if(block)
+            this.peers.broadcast({ type: 'block mined', block: block });
+    }
+
+    getBalanceOfAddress(account) {
         return this.blockchain.getBalanceOfAddress(account);
     }
-    
+
     run() {
 
         console.log(`Chain is valid? ${this.blockchain.isValid() ? 'yes' : 'no'}`);

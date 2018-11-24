@@ -1,29 +1,44 @@
 var Block = require("./block.js")
 var MinerReward = require("./minerReward.js");
+const Genesis=require("./genesis");
+const uuid = require('uuid/v4');
 
 class Blockchain {
     constructor(miner, difficulty) {
         this.miner = miner;
         this.pendingDocuments = [];
         this.difficulty = difficulty;
-        this.miningReward = 100; // reward to miner
+        this.miningReward = 25; // reward to miner
 
         this.chain = [];
     }
 
     createGenesisBlock() {
-        this.add({ type: 'genesis block' });
+        this.add(new Genesis());
         this.minePendingTransaction(); // mine genesis block
     }
 
     find(document) {
-        var other = this.pendingDocuments.find(d => d == document);
+        var other = this.pendingDocuments.find(d => d.id == document.id);
         return other;
     }
 
     add(document) {
+        document.id=uuid();
         this.pendingDocuments.push(document);
         return document;
+    }
+
+    setBlocks(blocks) {
+        this.chain = blocks;
+    }
+    addBlock(block) {
+        this.chain.push(block);
+
+        // quitamos del pendiente todos los documentos incluidos en el bloque minado
+        for (var document of block.documents){
+            this.pendingDocuments = this.pendingDocuments.filter(d => d.id != document.id);
+        }
     }
 
     getBalanceOfAddress(account) {
