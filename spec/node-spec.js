@@ -1,4 +1,3 @@
-const Q = require("q");
 var Node = require("./blockchainNode");
 
 describe("Blockchain nodes", function () {

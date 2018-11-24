@@ -1,7 +1,5 @@
-const Q = require("q");
 var Blockchain = require("./blockchain.js");
 var Miner = require("./builtInMiner");
-var Transaction = require("./transaction");
 var Peers = require("./peers");
 
 class BlockchainNode {
