@@ -34,7 +34,7 @@ for (let block of node3.blockchain.chain) {
         console.log(`\t${JSON.stringify(document)}`);
     }
     console.log(`] => hash: ${block.hash}`);
-    console.log('-----')
+    console.log('-----');
 }
 
 // mostramos los bloques pendientes de minar
