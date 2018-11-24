@@ -20,9 +20,10 @@ node2.mine(); // mina la transacción que acaba de entrar por el nodo-1
 node1.add(new Transaction("juan", "nelo", 1));
 
 // recorremos las cuentas y mostramos el balance en uno y otro nodo. Debería ser el mismo
-for (let account of ["nelo", "pedro", "juan"]) {
-    console.log(`the balance of '${account}' in 'node1' is ${node1.getBalanceOfAddress(account)}`);
-    console.log(`the balance of '${account}' in 'node2' is ${node2.getBalanceOfAddress(account)}`);
+for (let account of ["nelo", "pedro", "juan", "jose"]) {
+    for (let node of [node1, node2, node3]) {
+        console.log(`the balance of '${account}' in '${node.id}' is ${node.getBalanceOfAddress(account)}`);
+    }
 }
 
 // mostramos toda la blockchain desde el nodo3

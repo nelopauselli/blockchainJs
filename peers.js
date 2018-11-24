@@ -14,8 +14,7 @@ class Peers {
 
             if (!other) {
                 this.peers.push(peer);
-                //peer.notify({ type: 'node added', node: this.node });
-                this.broadcast({ type: 'node added', node: this.node });
+                peer.notify({ type: 'node added', node: this.node });
                 this.broadcast({ type: 'node added', node: peer });
                 peer.getBlocks(0, function (blocks) {
                     if (blocks && blocks.length > 0)
