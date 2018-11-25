@@ -1,6 +1,6 @@
 const Node = require('./../node');
 
-describe("Nodos y Transacciones", function () {
+describe("Nodos y Propagación", function () {
     var node1, node2, node3;
 
     beforeEach(function () {
