@@ -17,6 +17,11 @@ class Node {
 
     add(document) {
         if (!this.blockchain.find(document)) {
+            if (document.from) {
+                var balance = this.blockchain.getBalanceOfAddress(document.from);
+                if (balance < document.ammount)
+                    return;
+            }
             console.log(`adding document ${JSON.stringify(document)} to blockchain of ${this.id}`);
 
             this.blockchain.add(document);
@@ -42,7 +47,7 @@ class Node {
 
     mine() {
         var block = this.blockchain.minePendingTransaction();
-        if(block)
+        if (block)
             this.peers.broadcast({ type: 'block mined', block: block });
     }
 
