@@ -27,7 +27,9 @@ class Node {
             console.log(`adding document ${JSON.stringify(document)} to blockchain of ${this.id}`);
 
             this.blockchain.add(document);
-            this.peers.broadcast({ type: 'new document', document: document });
+
+            let clone = JSON.parse(JSON.stringify(document));
+            this.peers.broadcast({ type: 'new document', document: clone });
         }
     }
 

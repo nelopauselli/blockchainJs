@@ -19,13 +19,20 @@ describe("Nodos y Propagación", function () {
     it("cuando agrego una transacción, esta es propagada por los nodos", function () {
         node1.add({ type: 'document test', data: 6584 });
 
-        expect(1).toBe(node1.blockchain.pendingDocuments.length);
-        expect(6584).toBe(node1.blockchain.pendingDocuments[0].data);
+        for (let node of [node1, node2, node3]) {
+            expect(1).toBe(node.blockchain.pendingDocuments.length);
+            expect(6584).toBe(node.blockchain.pendingDocuments[0].data);
+        }
+    });
 
-        expect(1).toBe(node2.blockchain.pendingDocuments.length);
-        expect(6584).toBe(node2.blockchain.pendingDocuments[0].data);
 
-        expect(1).toBe(node3.blockchain.pendingDocuments.length);
-        expect(6584).toBe(node3.blockchain.pendingDocuments[0].data);
+    it("cuando un documento se propaga por los nodos, conserva su ID", function () {
+        var document = { type: 'document test', data: 6584 };
+        node1.add(document);
+
+        var documentId = document.id;
+        for (let node of [node1, node2, node3]) {
+            expect(documentId).toBe(node.blockchain.pendingDocuments[0].id);
+        }
     });
 })

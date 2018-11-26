@@ -23,6 +23,7 @@ class Peers {
         console.log(`broadcasting message from ${this.node.id}`);
         for (let channel of this.channels) {
             console.log(`sending message to ${channel.peer.id}`);
+
             channel.send(message);
         }
     }
