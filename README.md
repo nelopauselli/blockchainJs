@@ -13,3 +13,30 @@ Desarrollada en JavaScript
 * Cada nodo arma su potencial pr&oacute;ximo bloque (_block_) a formar parte de la blockchain.
 * Cuando un nodo mina un bloque, lo propaga a la red.
 * Cuando un nodo recibe un bloque minado, lo valida, lo agrega a su blockchain, lo propaga su la red y descarta los documentos pendientes que fueron incluidos en el nuevo bloque.
+
+## Uso de la PoC
+1. Crear el primer nodo de la red:
+```javascript
+const Node = require("./node");
+
+var node1 = new Node("account-1");
+```
+2. Crear los siguientes nodos de la red, pasando como parámetro algún nodo ya existente
+```javascript
+var node2 = new Node("account-2", node1);
+var node3 = new Node("account-3", node1);
+```
+3. Empezar a usar la red, por ejemplo, agreg&aacute;ndole una transacci&oacute;n
+```javascript
+node1.add(new Transaction("account-1", "account-2", 23));
+```
+> Esta transacci&oacute;n debe propagarse a todos los nodos
+4. Minar bloques pendientes
+```javascript
+node2.mine();
+```
+> el minado de un bloque lo puede hacer cualquier nodo
+5. Consultar el saldo de una cuenta, en cualquier nodo de la red
+```javascript
+node3.getBalanceOfAddress("account-2")
+```
