@@ -47,4 +47,4 @@ Desde cualquier nodo de la red se puede consultar el balance de una cuenta
 console.log(`El saldo de 'account-2' es ${node3.getBalanceOfAddress("account-2")}`);
 ```
 
-> N&oacute;tese que el transacci&oacute;n la agregamos por **node1**, la minamos desde **node2** y consultamos el balance desde **node3**
+> N&oacute;tese que la transacci&oacute;n la agregamos mediante **node1**, la minamos desde **node2** y consultamos el balance desde **node3**
