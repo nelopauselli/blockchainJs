@@ -9,8 +9,10 @@ class Node {
         this.blockchain = new Blockchain(new Miner(accountRewards), 2);
 
         this.peers = new Peers(this);
-        if (peer)
+        if (peer) {
             this.peers.add(peer);
+            this.peers.send(peer, { type: 'send me your blooks, please', startAt: 0, node: this });
+        }
         else
             this.blockchain.createGenesisBlock();
     }
@@ -40,7 +42,7 @@ class Node {
             this.blockchain.addBlock(message.block);
         } else if (message.type == 'send me your blooks, please') {
             var blocks = this.blockchain.chain.slice(message.startAt);
-            this.peers.send(message.node, { type: 'my chain', blocks: blocks})
+            this.peers.send(message.node, { type: 'my chain', blocks: blocks })
         } else if (message.type == 'my chain') {
             if (message.blocks && message.blocks.length > 0)
                 this.blockchain.setBlocks(message.blocks);
