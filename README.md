@@ -35,9 +35,9 @@ const Transaction = require("./transaction");
 
 node1.add(new Transaction("account-1", "account-2", 23));
 ```
-> Esta transacci&oacute;n debe propagarse a todos los nodos
+> Esta transacci&oacute;n se propagar&aacute; a todos los nodos
 ### Minar bloques pendientes
-Cualquier nodo puede armar su bloque candidato y, al minarlo, lo va a propagar por la red
+Cualquier nodo puede armar su bloque candidato y, al minarlo, lo propaga por la red
 ```javascript
 node2.mine();
 ```
@@ -47,4 +47,4 @@ Desde cualquier nodo de la red se puede consultar el balance de una cuenta
 console.log(`El saldo de 'account-2' es ${node3.getBalanceOfAddress("account-2")}`);
 ```
 
-> N&oacute;tese que el transacci&oacute;n la agregamos por **node1**, la minamos desde **node2** y consultamos el balance desde **node2**
+> N&oacute;tese que el transacci&oacute;n la agregamos por **node1**, la minamos desde **node2** y consultamos el balance desde **node3**
