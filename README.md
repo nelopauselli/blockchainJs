@@ -28,6 +28,8 @@ var node3 = new Node("account-3", node1);
 ```
 3. Empezar a usar la red, por ejemplo, agreg&aacute;ndole una transacci&oacute;n
 ```javascript
+const Transaction = require("./transaction");
+
 node1.add(new Transaction("account-1", "account-2", 23));
 ```
 > Esta transacci&oacute;n debe propagarse a todos los nodos
