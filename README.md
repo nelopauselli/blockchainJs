@@ -38,5 +38,5 @@ node2.mine();
 > el minado de un bloque lo puede hacer cualquier nodo
 5. Consultar el saldo de una cuenta, en cualquier nodo de la red
 ```javascript
-node3.getBalanceOfAddress("account-2")
+console.log(`El saldo de 'account-2' es ${node3.getBalanceOfAddress("account-2")}`);
 ```
