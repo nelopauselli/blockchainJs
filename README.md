@@ -3,7 +3,7 @@ Esta es una Prueba de Conceptos (PoC) referidos a una blockchain descentralizada
 
 Desarrollada en JavaScript
 
-## Aspectos claves
+## Aspectos relevantes
 ### La red
 * La red se organiza en nodos (_node_), cada nodo tiene su propia versi&oacute;n de la **blockchain**.
 * Cada nodo est&aacute; relacionado con otros nodos a los que llama pares (_peers_).
@@ -12,4 +12,4 @@ Desarrollada en JavaScript
 ### Armado (y minado) de nuevos bloques
 * Cada nodo arma su potencial pr&oacute;ximo bloque (_block_) a formar parte de la blockchain.
 * Cuando un nodo mina un bloque, lo propaga a la red.
-* Cuando un nodo recibe un bloque minado, lo valida, lo agrega a su blockchain, lo propaga su la red y sigue intentando minar los documentos restantes.
+* Cuando un nodo recibe un bloque minado, lo valida, lo agrega a su blockchain, lo propaga su la red y descarta los documentos pendientes que fueron incluidos en el nuevo bloque.
