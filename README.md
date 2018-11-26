@@ -15,30 +15,36 @@ Desarrollada en JavaScript
 * Cuando un nodo recibe un bloque minado, lo valida, lo agrega a su blockchain, lo propaga su la red y descarta los documentos pendientes que fueron incluidos en el nuevo bloque.
 
 ## Uso de la PoC
-1. Crear el primer nodo de la red:
+### Crear el primer nodo de la red
+Cada nodo que se crea necesita la direcci&oacute;n donde se pagar&aacute;n las recompensas por el minado
 ```javascript
 const Node = require("./node");
 
 var node1 = new Node("account-1");
 ```
-2. Crear los siguientes nodos de la red, pasando como parámetro algún nodo ya existente
+### Crear los siguientes nodos de la red
+Para crear los siguientes  nodos de la red, pasamos como par&aacute;metro algún nodo ya existente (adem&aacute;s de la ya mencionada direcci&oacute;n para recompensas)
 ```javascript
 var node2 = new Node("account-2", node1);
 var node3 = new Node("account-3", node1);
 ```
-3. Empezar a usar la red, por ejemplo, agreg&aacute;ndole una transacci&oacute;n
+### Empezar a usar la red
+Por ejemplo, agreg&aacute;ndole una transacci&oacute;n
 ```javascript
 const Transaction = require("./transaction");
 
 node1.add(new Transaction("account-1", "account-2", 23));
 ```
 > Esta transacci&oacute;n debe propagarse a todos los nodos
-4. Minar bloques pendientes
+### Minar bloques pendientes
+Cualquier nodo puede armar su bloque candidato y, al minarlo, lo va a propagar por la red
 ```javascript
 node2.mine();
 ```
-> el minado de un bloque lo puede hacer cualquier nodo
-5. Consultar el saldo de una cuenta, en cualquier nodo de la red
+### Consultar el saldo de una cuenta
+Desde cualquier nodo de la red se puede consultar el balance de una cuenta
 ```javascript
 console.log(`El saldo de 'account-2' es ${node3.getBalanceOfAddress("account-2")}`);
 ```
+
+> N&oacute;tese que el transacci&oacute;n la agregamos por **node1**, la minamos desde **node2** y consultamos el balance desde **node2**
