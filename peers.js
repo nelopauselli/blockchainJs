@@ -1,8 +1,10 @@
+const Channel = require('./channel');
+
 class Peers {
     constructor(node) {
         this.node = node;
 
-        this.peers = [];
+        this.channels = [];
         this.count = 0;
     }
 
@@ -10,25 +12,35 @@ class Peers {
         var self = this;
 
         if (peer.id != this.node.id) {
-            var other = this.peers.find(p => p.id == peer.id);
+            var other = this.channels.find(c => c.peer.id == peer.id);
 
             if (!other) {
-                this.peers.push(peer);
-                peer.notify({ type: 'node added', node: this.node });
+                var channel = new Channel(peer);
+                this.channels.push(channel);
+                channel.send({ type: 'node added', node: this.node });
                 this.broadcast({ type: 'node added', node: peer });
-                peer.getBlocks(0, function (blocks) {
-                    if (blocks && blocks.length > 0)
-                        self.node.blockchain.setBlocks(blocks);
-                });
+                
+                channel.send({ type: 'send me your blooks, please', startAt: 0, node: this.node});
             }
         }
     }
 
     broadcast(message) {
         console.log(`broadcasting message from ${this.node.id}`);
-        for (let peer of this.peers) {
-            console.log(`sending message to ${peer.id}`);
-            peer.notify(message);
+        for (let channel of this.channels) {
+            console.log(`sending message to ${channel.peer.id}`);
+            channel.send(message);
+        }
+    }
+
+    send(peer, message){
+        console.log(`sending message from ${this.node.id} to ${peer.id}`);
+        let channel = this.channels.find(c=>c.peer.id==peer.id);
+        if(channel) {
+            console.log(`sending message to ${channel.id}`);
+            channel.send(message);
+        }else{
+            console.log(`channel not found from ${this.node.id} to ${peer.id}`);
         }
     }
 }

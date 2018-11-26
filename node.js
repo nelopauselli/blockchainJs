@@ -29,6 +29,7 @@ class Node {
         }
     }
 
+    // recibe un mensaje de otro nodo
     notify(message) {
         if (message.type === 'node added') {
             console.log(`register ${message.node.id} as new peer in ${this.id}`);
@@ -37,12 +38,13 @@ class Node {
             this.add(message.document);
         } else if (message.type == 'block mined') {
             this.blockchain.addBlock(message.block);
+        } else if (message.type == 'send me your blooks, please') {
+            var blocks = this.blockchain.chain.slice(message.startAt);
+            this.peers.send(message.node, { type: 'my chain', blocks: blocks})
+        } else if (message.type == 'my chain') {
+            if (message.blocks && message.blocks.length > 0)
+                this.blockchain.setBlocks(message.blocks);
         }
-    }
-
-    getBlocks(startAt, callback) {
-        var blocks = this.blockchain.chain.slice(startAt);
-        callback(blocks);
     }
 
     mine() {
