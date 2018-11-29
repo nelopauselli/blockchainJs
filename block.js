@@ -15,6 +15,16 @@ class Block {
         var hash = CryptoJS.SHA256(middle).toString();
         return hash;
     }
+
+    isValid() {
+        if (this.calculateHash() !== this.hash)
+            return false;
+
+        if (this.documents.find(d => !d.isValid()))
+            return false;
+
+        return true;
+    }
 }
 
 module.exports = Block;

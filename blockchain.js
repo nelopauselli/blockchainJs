@@ -110,8 +110,8 @@ class Blockchain {
         } else if (previousBlock && previousBlock.hash !== block.previousHash) {
             console.log('invalid previoushash');
             return false;
-        } else if (block.calculateHash() !== block.hash) {
-            console.log('invalid hash: ' + block.calculateHash() + ' ' + block.hash);
+        } else if (!block.isValid()) {
+            console.log('invalid block');
             return false;
         }
         return true;

@@ -5,6 +5,10 @@ class MinerReward {
         this.to = account;
         this.ammount = ammount;
     }
+
+    isValid(){
+        return true;
+    }
 }
 
 module.exports = MinerReward;

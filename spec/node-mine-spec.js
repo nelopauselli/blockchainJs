@@ -1,4 +1,5 @@
 const Node = require('./../node');
+const Document = require('./../document');
 
 describe("Nodos y Minado", function () {
     var node1, node2, node3;
@@ -10,7 +11,7 @@ describe("Nodos y Minado", function () {
     });
 
     it("Minado de una transacción", function () {
-        node1.add({ type: 'document test', data: 1234 });
+        node1.add(new Document('document test', 1234));
         node1.mine();
 
         expect(0).toBe(node1.blockchain.pendingDocuments.length);
@@ -20,7 +21,7 @@ describe("Nodos y Minado", function () {
     });
 
     it("cuando mino una transacción, esta es propagada por los nodos", function () {
-        node1.add({ type: 'document test', data: 6584 });
+        node1.add(new Document('document test', 6584));
         node1.mine();
 
         for (let node of [node1, node2, node3]) {
@@ -28,6 +29,7 @@ describe("Nodos y Minado", function () {
             expect(2).toBe(node.blockchain.chain.length); // genesis block + mined block
             expect(2).toBe(node.blockchain.chain[1].documents.length); // document test + mined rewards
             expect(6584).toBe(node.blockchain.chain[1].documents[0].data);
+            expect(true).toBe(node.blockchain.isValid())
         }
     });
 })
