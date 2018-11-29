@@ -4,10 +4,6 @@ class Document {
         this.text = text;
         this.data = data;
     }
-
-    isValid() {
-        return true;
-    }
 }
 
 module.exports = Document;

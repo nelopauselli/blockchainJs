@@ -5,10 +5,6 @@ class Genesis {
         this.to = 'rewards-stock';
         this.ammount = 21000000;
     }
-
-    isValid(){
-        return true;
-    }
 }
 
 module.exports = Genesis;

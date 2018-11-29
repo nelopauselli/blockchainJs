@@ -5,10 +5,6 @@ class Transaction {
         this.to = to;
         this.ammount = ammount;
     }
-
-    isValid(){
-        return true;
-    }
 }
 
 module.exports = Transaction;

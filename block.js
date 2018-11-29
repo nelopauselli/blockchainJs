@@ -20,9 +20,16 @@ class Block {
         if (this.calculateHash() !== this.hash)
             return false;
 
-        if (this.documents.find(d => !d.isValid()))
+        if (this.documents.some(d => !this.isValidDocument(d)))
             return false;
 
+        return true;
+    }
+
+    isValidDocument(document){
+        if (document.type =='miner reward' && document.index == 0)
+            return true;
+        
         return true;
     }
 }
