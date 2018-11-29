@@ -20,16 +20,23 @@ class Block {
         if (this.calculateHash() !== this.hash)
             return false;
 
+        var rewards = this.documents.filter(d => d.type == 'miner reward');
+        if (rewards.length != 1)
+            return false;
+
         if (this.documents.some(d => !this.isValidDocument(d)))
             return false;
 
         return true;
     }
 
-    isValidDocument(document){
-        if (document.type =='miner reward' && document.index == 0)
+    isValidDocument(document) {
+        if (document.type == 'miner reward')
             return true;
-        
+
+        if (document.type == 'transaction')
+            return document.from && document.to && document.ammount;
+
         return true;
     }
 }

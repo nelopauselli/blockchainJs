@@ -1,6 +1,8 @@
 const Blockchain = require('./../blockchain');
 const Miner = require('./../builtInMiner');
 const Transaction = require('./../transaction');
+const MinerReward = require('./../minerReward');
+
 
 describe("Blockchain", function () {
     var blockchain;
@@ -32,5 +34,19 @@ describe("Blockchain", function () {
         blockchain.createGenesisBlock();
 
         expect(true).toBe(blockchain.isValid());
+    });
+
+    it("Cadena inválida por doble recomensa", function () {
+        blockchain.add(new MinerReward("miner-address"));
+        blockchain.createGenesisBlock();
+
+        expect(false).toBe(blockchain.isValid());
+    });
+
+    it("Cadena inválida por transacción sin origen", function () {
+        blockchain.add(new Transaction(null, "my-address", 456));
+        blockchain.createGenesisBlock();
+
+        expect(false).toBe(blockchain.isValid());
     });
 })
