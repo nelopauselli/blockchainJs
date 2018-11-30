@@ -42,7 +42,7 @@ var node3 = new Node(wallet3.address, node1);
 ### Empezar a usar la red
 Por ejemplo, agreg&aacute;ndole una transacci&oacute;n
 ```javascript
-var transaction = wallet1.sendTo(wallet2.address, 23);
+var transaction = wallet1.sendTo(wallet4.address, 23);
 node1.add(transaction);
 ```
 > Esta transacci&oacute;n se propagar&aacute; a todos los nodos
