@@ -3,7 +3,7 @@ class Genesis {
         this.type = 'genesis';
         this.from = 'genesis';
         this.to = 'rewards-stock';
-        this.ammount = 21000000;
+        this.amount = 21000000;
     }
 }
 

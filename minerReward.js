@@ -1,9 +1,9 @@
 class MinerReward {
-    constructor(account, ammount) {
+    constructor(account, amount) {
         this.type = 'miner reward';
         this.from = 'rewards-stock';
         this.to = account;
-        this.ammount = ammount;
+        this.amount = amount;
     }
 
     isValid(){

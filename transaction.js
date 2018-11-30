@@ -3,15 +3,15 @@ const EC = require("elliptic").ec;
 const ec = new EC('secp256k1');
 
 class Transaction {
-    constructor(from, to, ammount) {
+    constructor(from, to, amount) {
         this.type = 'transaction';
         this.from = from;
         this.to = to;
-        this.ammount = ammount;
+        this.amount = amount;
     }
 
     calculateHash() {
-        return SHA256(this.from, this.to + this.ammount).toString();
+        return SHA256(this.from, this.to + this.amount).toString();
     }
 
     sign(signingKey) {
@@ -23,7 +23,7 @@ class Transaction {
     }
 
     isValid() {
-        if (!this.from || !this.to || !this.ammount)
+        if (!this.from || !this.to || !this.amount)
             return false;
 
         if (!this.signature || this.signature.length === 0)

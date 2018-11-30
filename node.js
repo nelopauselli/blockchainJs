@@ -21,7 +21,7 @@ class Node {
         if (!this.blockchain.find(document)) {
             if (document.from) {
                 var balance = this.blockchain.getBalanceOfAddress(document.from);
-                if (balance < document.ammount)
+                if (balance < document.amount)
                     return;
             }
             console.log(`adding document ${JSON.stringify(document)} to blockchain of ${this.id}`);

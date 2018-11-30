@@ -46,17 +46,17 @@ class Blockchain {
         for (const block of this.chain) {
             for (const document of block.documents) {
                 if (document.from === account)
-                    balance -= document.ammount;
+                    balance -= document.amount;
                 else if (document.to === account)
-                    balance += document.ammount;
+                    balance += document.amount;
             }
         }
 
         for (const document of this.pendingDocuments) {
             if (document.from === account)
-                balance -= document.ammount;
+                balance -= document.amount;
             else if (document.to === account)
-                balance += document.ammount;
+                balance += document.amount;
         }
 
         return balance;
