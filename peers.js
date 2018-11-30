@@ -32,7 +32,7 @@ class Peers {
         console.log(`sending message from ${this.node.id} to ${peer.id}`);
         let channel = this.channels.find(c => c.peer.id == peer.id);
         if (channel) {
-            console.log(`sending message to ${channel.id}`);
+            console.log(`sending message to ${channel.peer.id}`);
             channel.send(message);
         } else {
             console.log(`channel not found from ${this.node.id} to ${peer.id}`);
