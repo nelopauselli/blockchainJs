@@ -42,9 +42,8 @@ var node3 = new Node(wallet3.address, node1);
 ### Empezar a usar la red
 Por ejemplo, agreg&aacute;ndole una transacci&oacute;n
 ```javascript
-const Transaction = require("./transaction");
-
-node1.add(new Transaction(wallet1.address, wallet4.address, 23));
+var transaction = wallet1.sendTo(wallet2.address, 23);
+node1.add(transaction);
 ```
 > Esta transacci&oacute;n se propagar&aacute; a todos los nodos
 ### Minar bloques pendientes
