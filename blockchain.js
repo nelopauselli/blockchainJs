@@ -24,6 +24,9 @@ class Blockchain {
     }
 
     add(document) {
+        if (!document.isValid()){
+            throw new Error("Documento inválido");
+        }
         if (!document.id) document.id = uuid();
         this.pendingDocuments.push(document);
         return document;

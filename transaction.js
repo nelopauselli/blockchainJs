@@ -3,11 +3,12 @@ const EC = require("elliptic").ec;
 const ec = new EC('secp256k1');
 
 class Transaction {
-    constructor(from, to, amount) {
+    constructor(from, to, amount, signature) {
         this.type = 'transaction';
         this.from = from;
         this.to = to;
         this.amount = amount;
+        this.signature = signature;
     }
 
     calculateHash() {

@@ -23,7 +23,7 @@ describe("Blockchain", function () {
     });
 
     it("Hash comienza con ceros", function () {
-        blockchain.add(new Transaction(wallet1.address, wallet2.address, 10));
+        blockchain.add(wallet1.sendTo(wallet2.address, 10));
         blockchain.createGenesisBlock();
 
         expect(2).toBe(blockchain.chain.length);
@@ -33,8 +33,7 @@ describe("Blockchain", function () {
     });
 
     it("Cadena válida", function () {
-        var transaction = wallet1.sendTo(wallet2.address, 10);
-        blockchain.add(transaction);
+        blockchain.add(wallet1.sendTo(wallet2.address, 10));
         blockchain.createGenesisBlock();
 
         expect(true).toBe(blockchain.isValid());
@@ -48,9 +47,10 @@ describe("Blockchain", function () {
     });
 
     it("Cadena inválida por transacción sin origen", function () {
-        blockchain.add(new Transaction(null, "my-address", 456));
+        var invalidAction = function () { blockchain.add(new Transaction(null, wallet2.address, 456))};
+        expect(invalidAction).toThrow(new Error("Documento inválido"));
         blockchain.createGenesisBlock();
 
-        expect(false).toBe(blockchain.isValid());
+        expect(true).toBe(blockchain.isValid());
     });
 })

@@ -1,6 +1,9 @@
 var Blockchain = require("./blockchain.js");
 var Miner = require("./builtInMiner");
 var Peers = require("./peers");
+var Transaction = require("./transaction");
+var Document = require("./document");
+var MinerReward = require("./minerReward");
 
 class Node {
 
@@ -39,7 +42,17 @@ class Node {
             console.log(`register ${message.node.id} as new peer in ${this.id}`);
             this.peers.add(message.node);
         } else if (message.type == 'new document') {
-            this.add(message.document);
+            var document;
+            if (message.document.type == 'transaction') {
+                document = Object.assign(new Transaction, message.document);
+            } else if (message.document.type == 'document') {
+                document = Object.assign(new Document, message.document);
+            } else if (message.document.type == 'miner') {
+                document = Object.assign(new MinerReward, message.document);
+            } else {
+                throw new Error(`No se reconoce el tipo de documento ${message.document.type}`);
+            }
+            this.add(document);
         } else if (message.type == 'block mined') {
             this.blockchain.addBlock(message.block);
         } else if (message.type == 'send me your blooks, please') {
