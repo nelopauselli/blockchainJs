@@ -50,4 +50,6 @@ console.log(`El saldo de 'account-2' es ${node3.getBalanceOfAddress("account-2")
 > N&oacute;tese que la transacci&oacute;n la agregamos mediante **node1**, la minamos desde **node2** y consultamos el balance desde **node3**
 
 # Referencias
-* [Building a blockchain with Javascript][https://www.youtube.com/playlist?list=PLzvRQMJ9HDiTqZmbtFisdXFxul5k0F-Q4]
+* [Building a blockchain with Javascript](https://www.youtube.com/playlist?list=PLzvRQMJ9HDiTqZmbtFisdXFxul5k0F-Q4)
+* [Wiki de bitcoin](https://en.bitcoin.it/wiki/)
+* [Developer Documentation de bitcoin](https://bitcoin.org/en/developer-documentation)
