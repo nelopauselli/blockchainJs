@@ -35,7 +35,7 @@ class Block {
             return true;
 
         if (document.type == 'transaction')
-            return document.from && document.to && document.ammount;
+            return document.isValid();
 
         return true;
     }
