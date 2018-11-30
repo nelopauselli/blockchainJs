@@ -4,8 +4,8 @@ const ec = new EC('secp256k1');
 const Transaction = require('./transaction');
 
 class Wallet {
-    constructor(privateKey) {
-        this.keys = ec.keyFromPrivate(privateKey);
+    constructor() {
+        this.keys = ec.genKeyPair();
         this.address = this.keys.getPublic('hex');
     }
 

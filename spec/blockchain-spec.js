@@ -7,8 +7,8 @@ const Wallet = require('./../wallet');
 
 describe("Blockchain", function () {
     var blockchain;
-    var wallet1 = new Wallet("fe75beff4e1ce28e8e6555adee7acfed47ce58be338ff95addb8e2371d262b2d");
-    var wallet2 = new Wallet("841dc0dacfebc2372aba0d22af1a3455f63501bf53c7b3bfa91b0e117a43e0c6");
+    var wallet1 = new Wallet();
+    var wallet2 = new Wallet();
 
     beforeEach(function () {
         blockchain = new Blockchain(new Miner("1234"), 2);

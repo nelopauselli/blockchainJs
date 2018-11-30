@@ -20,14 +20,11 @@ Desarrollada en JavaScript
 ```javascript
 const Wallet = require("./wallet");
 
-var wallet1 = new Wallet("8face843eaf4aa3a88087ce849feda26c3c5b47f327cc6326756ca2f60069b4a");
-var wallet2 = new Wallet("23508162c718e5156e4cb2ef46a46ad3b9e03005026a64925fda6cabf5399f41");
-var wallet3 = new Wallet("5f9cd23fbba3400fa3acbf10250d820621f1373ef55820936043b0b6855c2124");
+var wallet1 = new Wallet();
+var wallet2 = new Wallet();
+var wallet3 = new Wallet();
+var wallet4 = new Wallet();
 ```
-> el par&aacute;metro que recibe Wallet es la clave privada de la billetera, las mismas pueden generarse con:
-> ```nodejs
-> node kegenerator.js
-> ```
 
 ### Crear el primer nodo de la red
 Cada nodo que se crea necesita la direcci&oacute;n donde se pagar&aacute;n las recompensas por el minado
@@ -47,7 +44,7 @@ Por ejemplo, agreg&aacute;ndole una transacci&oacute;n
 ```javascript
 const Transaction = require("./transaction");
 
-node1.add(new Transaction(wallet1.address, wallet2.address, 23));
+node1.add(new Transaction(wallet1.address, wallet4.address, 23));
 ```
 > Esta transacci&oacute;n se propagar&aacute; a todos los nodos
 ### Minar bloques pendientes
@@ -58,7 +55,7 @@ node2.mine();
 ### Consultar el saldo de una cuenta
 Desde cualquier nodo de la red se puede consultar el balance de una cuenta
 ```javascript
-console.log(`El saldo de la billetera 2 es ${node3.getBalanceOfAddress(wallet2.address)}`);
+console.log(`El saldo de la billetera 4 es ${node3.getBalanceOfAddress(wallet4.address)}`);
 ```
 
 > N&oacute;tese que la transacci&oacute;n la agregamos mediante **node1**, la minamos desde **node2** y consultamos el balance desde **node3**
