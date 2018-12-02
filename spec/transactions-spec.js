@@ -9,15 +9,15 @@ describe("Transacciones y fondos", function () {
 
     beforeEach(function () {
         node1 = new Node("node-1", wallet1.address);
-        node2 = new Node("node-2", wallet2, node1);
-        node3 = new Node("node-3", wallet3, node1);
+        node2 = new Node("node-2", wallet2.address, node1);
+        node3 = new Node("node-3", wallet3.address, node1);
 
         wallet1.connectTo(node1);
         wallet2.connectTo(node1);
         wallet3.connectTo(node1);
     });
 
-    it("Agrego de una transacción de una cuenta que no existe", function () {
+    it("Agrego de una transacción de una billetera sin fondos", function () {
         wallet3.sendTo(wallet2.address, 50);
 
         for (let node of [node1, node2, node3]) {
