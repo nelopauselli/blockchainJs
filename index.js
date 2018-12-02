@@ -22,11 +22,15 @@ walletJose.connectTo(node1);
 walletNelo.sendTo(walletJuan.address, 23);
 walletNelo.sendTo(walletPedro.address, 17);
 
+node1.processIncomingDocuments();
 node1.mine(); // mina tanto los bloques que entraron por nodo-1 como por nodo-2
+
+node2.processIncomingDocuments();
 node2.mine(); // no debería minar nada porque ya minó el nodo-1
 
 walletPedro.sendTo(walletJuan.address, 10);
 walletPedro.sendTo(walletJose.address, 2);
+node2.processIncomingDocuments();
 node2.mine(); // mina la transacción que acaba de entrar por el nodo-1
 
 // agregamos una transacción que no será minada
@@ -50,8 +54,21 @@ for (let block of node3.blockchain.chain) {
     console.log('-----');
 }
 
-// mostramos los bloques pendientes de minar
-console.log(`pending documents:`)
-for (let document of node3.blockchain.pendingDocuments) {
-    console.log(`\t${JSON.stringify(document)}`);
+// mostramos los documentos entrantes pendientes de procesar
+for (let node of [node1, node2, node3]) {
+    console.log(`incoming documents in ${node.alias}: ${node.incomingDocuments.length}`)
+}
+
+// mostramos los documentos pendientes de minar
+for (let node of [node1, node2, node3]) {
+    console.log(`pending documents in ${node.alias}: ${node.blockchain.pendingDocuments.length}`)
+}
+
+// mostramos los documentos minados
+for (let node of [node1, node2, node3]) {
+    let count = 0;
+    for (let block of node.blockchain.chain) {
+        count += block.documents.length;
+    }
+    console.log(`mined documents in ${node.alias}: ${count}`)
 }

@@ -10,15 +10,47 @@ describe("Nodos y Propagación", function () {
         node3 = new Node("node-3", "789", node1);
     });
 
-    it("cuando agrego una transacción, esta es figura como pendiente en el nodo agregado", function () {
+    it("cuando agrego una transacción, esta es figura como entrante en el nodo agregado y no propagada a otros nodos", function () {
         node1.add(new Document('document test', 1234));
+
+        expect(1).toBe(node1.incomingDocuments.length);
+        expect(1234).toBe(node1.incomingDocuments[0].data);
+
+        expect(0).toBe(node2.incomingDocuments.length);
+        expect(0).toBe(node3.incomingDocuments.length);
+    });
+
+    it("cuando confirmo una transacción, esta es figura como pendiente en el nodo agregado", function () {
+        node1.add(new Document('document test', 1234));
+
+        node1.processIncomingDocuments();
+
+        expect(0).toBe(node1.incomingDocuments.length);
 
         expect(1).toBe(node1.blockchain.pendingDocuments.length);
         expect(1234).toBe(node1.blockchain.pendingDocuments[0].data);
     });
+    
+    it("cuando confirmo una transacción, esta es figura como entrante en los nodos conectados al entrante", function () {
+        node1.add(new Document('document test', 1234));
 
-    it("cuando agrego una transacción, esta es propagada por los nodos", function () {
+        node1.processIncomingDocuments();
+
+        expect(1).toBe(node2.incomingDocuments.length);
+        expect(1234).toBe(node2.incomingDocuments[0].data);
+        expect(0).toBe(node2.blockchain.pendingDocuments.length);
+
+        expect(1).toBe(node3.incomingDocuments.length);
+        expect(1234).toBe(node3.incomingDocuments[0].data);
+        expect(0).toBe(node3.blockchain.pendingDocuments.length);
+    });
+
+    it("cuando agrego una transacción, esta es propagada por los nodos e incorporada a su blockchain a medida que se procesa", function () {
         node1.add(new Document('document test', 6584));
+
+        node1.processIncomingDocuments();
+        node2.processIncomingDocuments();
+        node3.processIncomingDocuments();
 
         for (let node of [node1, node2, node3]) {
             expect(1).toBe(node.blockchain.pendingDocuments.length);
@@ -30,6 +62,10 @@ describe("Nodos y Propagación", function () {
     it("cuando un documento se propaga por los nodos, conserva su ID", function () {
         var document = new Document('document test', 6584);
         node1.add(document);
+
+        node1.processIncomingDocuments();
+        node2.processIncomingDocuments();
+        node3.processIncomingDocuments();
 
         var documentId = document.id;
         for (let node of [node1, node2, node3]) {

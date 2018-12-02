@@ -54,7 +54,18 @@ Por ejemplo, agreg&aacute;ndole una transacci&oacute;n
 ```javascript
 wallet1.sendTo(wallet4.address, 23);
 ```
-> Esta transacci&oacute;n se propagar&aacute; a todos los nodos
+> Esta transacci&oacute;n est&aacute; pendiente de procesar, no se propaga a&uacute;n a los nodos
+
+### Procesando transacciones entrantes
+```javascript
+node1.processIncomingDocuments();
+```
+> Las transacciones se propagar&aacute;n a todos los nodos, quedando como transacciones entrantes en cada uno hasta ser procesadas
+```javascript
+node2.processIncomingDocuments();
+node3.processIncomingDocuments();
+```
+
 ### Minar bloques pendientes
 Cualquier nodo puede armar su bloque candidato y, al minarlo, lo propaga por la red
 ```javascript

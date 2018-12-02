@@ -12,6 +12,8 @@ describe("Nodos y Minado", function () {
 
     it("Minado de una transacción", function () {
         node1.add(new Document('document test', 1234));
+        node1.processIncomingDocuments();
+
         node1.mine();
 
         expect(0).toBe(node1.blockchain.pendingDocuments.length);
@@ -22,6 +24,7 @@ describe("Nodos y Minado", function () {
 
     it("cuando mino una transacción, esta es propagada por los nodos", function () {
         node1.add(new Document('document test', 6584));
+        node1.processIncomingDocuments();
         node1.mine();
 
         for (let node of [node1, node2, node3]) {

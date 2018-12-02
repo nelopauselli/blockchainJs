@@ -9,6 +9,7 @@ class Node {
 
     constructor(alias, accountRewards, peer) {
         this.alias = alias;
+        this.incomingDocuments = [];
         this.blockchain = new Blockchain(new Miner(accountRewards), 2);
 
         this.peers = new Peers(this);
@@ -21,20 +22,28 @@ class Node {
     }
 
     add(document) {
-        if (!this.blockchain.find(document)) {
-            if (document.from) {
-                var balance = this.blockchain.getBalanceOfAddress(document.from);
-                if (balance < document.amount)
-                    return;
+        this.incomingDocuments.push(document);
+    }
 
-                console.log(`document is valid in blockchain of ${this.alias}`);
+    processIncomingDocuments() {
+        while (this.incomingDocuments.length>0) {
+            let document = this.incomingDocuments.shift();
+
+            if (!this.blockchain.find(document)) {
+                if (document.from) {
+                    var balance = this.blockchain.getBalanceOfAddress(document.from);
+                    if (balance < document.amount)
+                        return;
+
+                    console.log(`document is valid in blockchain of ${this.alias}`);
+                }
+                console.log(`adding document ${JSON.stringify(document)} to blockchain of ${this.alias}`);
+
+                this.blockchain.add(document);
+
+                let clone = JSON.parse(JSON.stringify(document));
+                this.peers.broadcast({ type: 'new document', document: clone });
             }
-            console.log(`adding document ${JSON.stringify(document)} to blockchain of ${this.alias}`);
-
-            this.blockchain.add(document);
-
-            let clone = JSON.parse(JSON.stringify(document));
-            this.peers.broadcast({ type: 'new document', document: clone });
         }
     }
 

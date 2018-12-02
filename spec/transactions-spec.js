@@ -21,6 +21,7 @@ describe("Transacciones y fondos", function () {
         wallet3.sendTo(wallet2.address, 50);
 
         for (let node of [node1, node2, node3]) {
+            node.processIncomingDocuments();
             expect(0).toBe(node.blockchain.pendingDocuments.length);
         }
     });
@@ -29,6 +30,7 @@ describe("Transacciones y fondos", function () {
         wallet1.sendTo(wallet2.address, 1000);
 
         for (let node of [node1, node2, node3]) {
+            node.processIncomingDocuments();
             expect(0).toBe(node.blockchain.pendingDocuments.length);
         }
     });
@@ -37,6 +39,7 @@ describe("Transacciones y fondos", function () {
         wallet1.sendTo(wallet2.address, 50);
 
         for (let node of [node1, node2, node3]) {
+            node.processIncomingDocuments();
             expect(1).toBe(node.blockchain.pendingDocuments.length);
         }
     });
