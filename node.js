@@ -7,8 +7,8 @@ var MinerReward = require("./minerReward");
 
 class Node {
 
-    constructor(accountRewards, peer) {
-        this.id = accountRewards;
+    constructor(alias, accountRewards, peer) {
+        this.alias = alias;
         this.blockchain = new Blockchain(new Miner(accountRewards), 2);
 
         this.peers = new Peers(this);
@@ -26,8 +26,10 @@ class Node {
                 var balance = this.blockchain.getBalanceOfAddress(document.from);
                 if (balance < document.amount)
                     return;
+
+                console.log(`document is valid in blockchain of ${this.alias}`);
             }
-            console.log(`adding document ${JSON.stringify(document)} to blockchain of ${this.id}`);
+            console.log(`adding document ${JSON.stringify(document)} to blockchain of ${this.alias}`);
 
             this.blockchain.add(document);
 
@@ -39,7 +41,7 @@ class Node {
     // recibe un mensaje de otro nodo
     notify(message) {
         if (message.type === 'node added') {
-            console.log(`register ${message.node.id} as new peer in ${this.id}`);
+            console.log(`register ${message.node.alias} as new peer in ${this.alias}`);
             this.peers.add(message.node);
         } else if (message.type == 'new document') {
             var document;

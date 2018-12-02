@@ -8,9 +8,9 @@ describe("Transacciones y fondos", function () {
     var wallet3 = new Wallet();
 
     beforeEach(function () {
-        node1 = new Node(wallet1.address);
-        node2 = new Node(wallet2, node1);
-        node3 = new Node(wallet3, node1);
+        node1 = new Node("node-1", wallet1.address);
+        node2 = new Node("node-2", wallet2, node1);
+        node3 = new Node("node-3", wallet3, node1);
     });
 
     it("Agrego de una transacción de una cuenta que no existe", function () {

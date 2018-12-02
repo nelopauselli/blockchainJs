@@ -7,8 +7,8 @@ class Peers {
     }
 
     add(peer) {
-        if (peer.id != this.node.id) {
-            var other = this.channels.find(c => c.peer.id == peer.id);
+        if (peer.alias != this.node.alias) {
+            var other = this.channels.find(c => c.peer.alias == peer.alias);
 
             if (!other) {
                 var channel = new Channel(peer);
@@ -20,22 +20,22 @@ class Peers {
     }
 
     broadcast(message) {
-        console.log(`broadcasting message from ${this.node.id}`);
+        console.log(`broadcasting message from ${this.node.alias}`);
         for (let channel of this.channels) {
-            console.log(`sending message to ${channel.peer.id}`);
+            console.log(`sending message to ${channel.peer.alias}`);
 
             channel.send(message);
         }
     }
 
     send(peer, message) {
-        console.log(`sending message from ${this.node.id} to ${peer.id}`);
-        let channel = this.channels.find(c => c.peer.id == peer.id);
+        console.log(`sending message from ${this.node.alias} to ${peer.alias}`);
+        let channel = this.channels.find(c => c.peer.alias == peer.alias);
         if (channel) {
-            console.log(`sending message to ${channel.peer.id}`);
+            console.log(`sending message to ${channel.peer.alias}`);
             channel.send(message);
         } else {
-            console.log(`channel not found from ${this.node.id} to ${peer.id}`);
+            console.log(`channel not found from ${this.node.alias} to ${peer.alias}`);
         }
     }
 }

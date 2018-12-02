@@ -1,5 +1,4 @@
 const Node = require("./node");
-const Transaction = require("./transaction");
 const Wallet = require("./wallet");
 
 // creando billeteras
@@ -9,9 +8,9 @@ var walletJuan = new Wallet();
 var walletJose = new Wallet();
 
 // creando 3 nodos de la red
-var node1 = new Node(walletNelo.address);
-var node2 = new Node(walletPedro.address, node1); // le pasamos 1 peer donde acoplarse a la red
-var node3 = new Node(walletJuan.address, node1); // le pasamos 1 peer donde acoplarse a la red
+var node1 = new Node("nodo-1", walletNelo.address);
+var node2 = new Node("nodo-2", walletPedro.address, node1); // le pasamos 1 peer donde acoplarse a la red
+var node3 = new Node("nodo-3", walletJuan.address, node1); // le pasamos 1 peer donde acoplarse a la red
 
 // agregando transacciones a la red por distintos nodos
 node1.add(walletNelo.sendTo(walletJuan.address, 23));
@@ -30,7 +29,7 @@ node1.add(walletJuan.sendTo(walletNelo.address, 1));
 // recorremos las cuentas y mostramos el balance en uno y otro nodo. Debería ser el mismo
 for (let account of [walletNelo.address, walletPedro.address, walletJuan.address, walletJose.address, "rewards-stock"]) {
     for (let node of [node1, node2, node3]) {
-        console.log(`the balance of '${account}' in '${node.id}' is ${node.getBalanceOfAddress(account)}`);
+        console.log(`the balance of '${account}' in '${node.alias}' is ${node.getBalanceOfAddress(account)}`);
     }
 }
 

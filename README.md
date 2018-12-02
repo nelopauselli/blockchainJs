@@ -27,17 +27,17 @@ var wallet4 = new Wallet();
 ```
 
 ### Crear el primer nodo de la red
-Cada nodo que se crea necesita la direcci&oacute;n donde se pagar&aacute;n las recompensas por el minado
+Cada nodo que se crea necesita un alias y la direcci&oacute;n donde se pagar&aacute;n las recompensas por el minado
 ```javascript
 const Node = require("./node");
 
-var node1 = new Node(wallet1.address);
+var node1 = new Node("nodo-1", wallet1.address);
 ```
 ### Crear los siguientes nodos de la red
-Para crear los siguientes  nodos de la red, pasamos como par&aacute;metro algún nodo ya existente (adem&aacute;s de la ya mencionada direcci&oacute;n para recompensas)
+Para crear los siguientes nodos de la red, pasamos como par&aacute;metro algún nodo ya existente (adem&aacute;s de los ya mencionados alias y direcci&oacute;n para recompensas)
 ```javascript
-var node2 = new Node(wallet2.address, node1);
-var node3 = new Node(wallet3.address, node1);
+var node2 = new Node("nodo-2", wallet2.address, node1);
+var node3 = new Node("nodo-3", wallet3.address, node1);
 ```
 ### Empezar a usar la red
 Por ejemplo, agreg&aacute;ndole una transacci&oacute;n

@@ -5,9 +5,9 @@ describe("Nodos y Propagación", function () {
     var node1, node2, node3;
 
     beforeEach(function () {
-        node1 = new Node("node-1");
-        node2 = new Node("node-2", node1);
-        node3 = new Node("node-3", node1);
+        node1 = new Node("node-1", "123");
+        node2 = new Node("node-2", "456", node1);
+        node3 = new Node("node-3", "789", node1);
     });
 
     it("cuando agrego una transacción, esta es figura como pendiente en el nodo agregado", function () {
