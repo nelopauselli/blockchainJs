@@ -9,11 +9,19 @@ class Wallet {
         this.address = this.keys.getPublic('hex');
     }
 
-    sendTo(address, amount){
+    connectTo(node) {
+        this.node = node;
+    }
+
+    sendTo(address, amount) {
+        if(!this.node){
+            throw new Error("La billetera no está conectada a ningún nodo");
+        }
+
         var tx = new Transaction(this.address, address, amount);
         tx.sign(this.keys);
 
-        return tx;
+        this.node.add(tx);
     }
 }
 

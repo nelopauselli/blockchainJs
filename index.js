@@ -12,19 +12,25 @@ var node1 = new Node("nodo-1", walletNelo.address);
 var node2 = new Node("nodo-2", walletPedro.address, node1); // le pasamos 1 peer donde acoplarse a la red
 var node3 = new Node("nodo-3", walletJuan.address, node1); // le pasamos 1 peer donde acoplarse a la red
 
+// conectamos las billeteras a algún nodo de la red
+walletNelo.connectTo(node1);
+walletPedro.connectTo(node1);
+walletJuan.connectTo(node1);
+walletJose.connectTo(node1);
+
 // agregando transacciones a la red por distintos nodos
-node1.add(walletNelo.sendTo(walletJuan.address, 23));
-node2.add(walletNelo.sendTo(walletPedro.address, 17));
+walletNelo.sendTo(walletJuan.address, 23);
+walletNelo.sendTo(walletPedro.address, 17);
 
 node1.mine(); // mina tanto los bloques que entraron por nodo-1 como por nodo-2
 node2.mine(); // no debería minar nada porque ya minó el nodo-1
 
-node1.add(walletPedro.sendTo(walletJuan.address, 10));
-node1.add(walletPedro.sendTo(walletJose.address, 2));
+walletPedro.sendTo(walletJuan.address, 10);
+walletPedro.sendTo(walletJose.address, 2);
 node2.mine(); // mina la transacción que acaba de entrar por el nodo-1
 
 // agregamos una transacción que no será minada
-node1.add(walletJuan.sendTo(walletNelo.address, 1));
+walletJuan.sendTo(walletNelo.address, 1);
 
 // recorremos las cuentas y mostramos el balance en uno y otro nodo. Debería ser el mismo
 for (let account of [walletNelo.address, walletPedro.address, walletJuan.address, walletJose.address, "rewards-stock"]) {

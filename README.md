@@ -33,17 +33,24 @@ const Node = require("./node");
 
 var node1 = new Node("nodo-1", wallet1.address);
 ```
+
 ### Crear los siguientes nodos de la red
 Para crear los siguientes nodos de la red, pasamos como par&aacute;metro algún nodo ya existente (adem&aacute;s de los ya mencionados alias y direcci&oacute;n para recompensas)
 ```javascript
 var node2 = new Node("nodo-2", wallet2.address, node1);
 var node3 = new Node("nodo-3", wallet3.address, node1);
 ```
+
+### Conectamos las billeteras a alg&uacte;n nodo de la red
+wallet1.connectTo(node1);
+wallet2.connectTo(node1);
+wallet3.connectTo(node1);
+wallet4.connectTo(node1);
+
 ### Empezar a usar la red
 Por ejemplo, agreg&aacute;ndole una transacci&oacute;n
 ```javascript
-var transaction = wallet1.sendTo(wallet4.address, 23);
-node1.add(transaction);
+wallet1.sendTo(wallet4.address, 23);
 ```
 > Esta transacci&oacute;n se propagar&aacute; a todos los nodos
 ### Minar bloques pendientes
