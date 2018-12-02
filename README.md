@@ -42,10 +42,12 @@ var node3 = new Node("nodo-3", wallet3.address, node1);
 ```
 
 ### Conectamos las billeteras a alg&uacte;n nodo de la red
+```javascript
 wallet1.connectTo(node1);
 wallet2.connectTo(node1);
 wallet3.connectTo(node1);
 wallet4.connectTo(node1);
+```
 
 ### Empezar a usar la red
 Por ejemplo, agreg&aacute;ndole una transacci&oacute;n
