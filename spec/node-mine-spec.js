@@ -16,7 +16,7 @@ describe("Nodos y Minado", function () {
 
         node1.mine();
 
-        expect(0).toBe(node1.blockchain.pendingDocuments.length);
+        expect(0).toBe(node1.pendingDocuments.length);
         expect(2).toBe(node1.blockchain.chain.length); // genesis block + mined block
         expect(2).toBe(node1.blockchain.chain[1].documents.length); // document test + mined rewards
         expect(1234).toBe(node1.blockchain.chain[1].documents[0].data);
@@ -29,7 +29,7 @@ describe("Nodos y Minado", function () {
 
         for (let node of [node1, node2, node3]) {
             expect(0).toBe(node.incomingDocuments.length);
-            expect(0).toBe(node.blockchain.pendingDocuments.length);
+            expect(0).toBe(node.pendingDocuments.length);
             expect(2).toBe(node.blockchain.chain.length); // genesis block + mined block
             expect(2).toBe(node.blockchain.chain[1].documents.length); // document test + mined rewards
             expect(6584).toBe(node.blockchain.chain[1].documents[0].data);

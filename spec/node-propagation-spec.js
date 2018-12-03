@@ -27,8 +27,8 @@ describe("Nodos y Propagación", function () {
 
         expect(0).toBe(node1.incomingDocuments.length);
 
-        expect(1).toBe(node1.blockchain.pendingDocuments.length);
-        expect(1234).toBe(node1.blockchain.pendingDocuments[0].data);
+        expect(1).toBe(node1.pendingDocuments.length);
+        expect(1234).toBe(node1.pendingDocuments[0].data);
     });
     
     it("cuando confirmo una transacción, esta es figura como entrante en los nodos conectados al entrante", function () {
@@ -38,11 +38,11 @@ describe("Nodos y Propagación", function () {
 
         expect(1).toBe(node2.incomingDocuments.length);
         expect(1234).toBe(node2.incomingDocuments[0].data);
-        expect(0).toBe(node2.blockchain.pendingDocuments.length);
+        expect(0).toBe(node2.pendingDocuments.length);
 
         expect(1).toBe(node3.incomingDocuments.length);
         expect(1234).toBe(node3.incomingDocuments[0].data);
-        expect(0).toBe(node3.blockchain.pendingDocuments.length);
+        expect(0).toBe(node3.pendingDocuments.length);
     });
 
     it("cuando agrego una transacción, esta es propagada por los nodos e incorporada a su blockchain a medida que se procesa", function () {
@@ -53,8 +53,8 @@ describe("Nodos y Propagación", function () {
         node3.processIncomingDocuments();
 
         for (let node of [node1, node2, node3]) {
-            expect(1).toBe(node.blockchain.pendingDocuments.length);
-            expect(6584).toBe(node.blockchain.pendingDocuments[0].data);
+            expect(1).toBe(node.pendingDocuments.length);
+            expect(6584).toBe(node.pendingDocuments[0].data);
         }
     });
 
@@ -69,7 +69,7 @@ describe("Nodos y Propagación", function () {
 
         var documentId = document.id;
         for (let node of [node1, node2, node3]) {
-            expect(documentId).toBe(node.blockchain.pendingDocuments[0].id);
+            expect(documentId).toBe(node.pendingDocuments[0].id);
         }
     });
 })

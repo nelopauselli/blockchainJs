@@ -5,6 +5,7 @@ const Blockchain = require('./../blockchain');
 const Miner = require('./../builtInMiner');
 const Transaction = require('./../transaction');
 const MinerReward = require('./../minerReward');
+const Genesis = require("./../genesis");
 
 
 describe("Blockchain", function () {
@@ -16,7 +17,9 @@ describe("Blockchain", function () {
 
     beforeEach(function () {
         blockchain = new Blockchain(new Miner("1234"), 2);
-        blockchain.createGenesisBlock(); 
+
+        let pendingDocuments = [new Genesis()];
+        blockchain.minePendingTransaction(pendingDocuments);
     });
 
     it("Minado del genesis block", function () {
@@ -30,8 +33,7 @@ describe("Blockchain", function () {
         var tx = new Transaction(address1, address2, 10);
         tx.sign(key1);
 
-        blockchain.add(tx);
-        blockchain.createGenesisBlock();
+        blockchain.minePendingTransaction([tx]);
 
         expect(2).toBe(blockchain.chain.length);
 
@@ -43,15 +45,13 @@ describe("Blockchain", function () {
         var tx = new Transaction(address1, address2, 10);
         tx.sign(key1);
 
-        blockchain.add(tx);
-        blockchain.createGenesisBlock();
+        blockchain.minePendingTransaction([tx]);
 
         expect(true).toBe(blockchain.isValid());
     });
 
     it("Cadena inválida por doble recomensa", function () {
-        blockchain.add(new MinerReward("miner-address"));
-        blockchain.createGenesisBlock();
+        blockchain.minePendingTransaction([new MinerReward("miner-address")]);
 
         expect(false).toBe(blockchain.isValid());
     });
@@ -59,10 +59,9 @@ describe("Blockchain", function () {
     it("Cadena inválida por transacción sin firmar", function () {
         var invalidAction = function () { 
             var tx = new Transaction(address1, address2, 10);
-            blockchain.add(tx);
+            blockchain.minePendingTransaction([tx]);
         };
         expect(invalidAction).toThrow(new Error("Documento inválido"));
-        blockchain.createGenesisBlock();
 
         expect(true).toBe(blockchain.isValid());
     });
