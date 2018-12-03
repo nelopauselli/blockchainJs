@@ -61,7 +61,7 @@ for (let node of [node1, node2, node3]) {
 
 // mostramos los documentos pendientes de minar
 for (let node of [node1, node2, node3]) {
-    console.log(`pending documents in ${node.alias}: ${node.blockchain.pendingDocuments.length}`)
+    console.log(`pending documents in ${node.alias}: ${node.pendingDocuments.length}`)
 }
 
 // mostramos los documentos minados
