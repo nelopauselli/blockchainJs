@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "nyc jasmine"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +13,9 @@
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "elliptic": "^6.4.1",
-    "jasmine": "^3.3.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "jasmine": "^3.3.0"
   }
 }
