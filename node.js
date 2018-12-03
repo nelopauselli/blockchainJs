@@ -26,7 +26,7 @@ class Node {
     }
 
     processIncomingDocuments() {
-        while (this.incomingDocuments.length>0) {
+        while (this.incomingDocuments.length > 0) {
             let document = this.incomingDocuments.shift();
 
             if (!this.blockchain.find(document)) {
@@ -65,7 +65,11 @@ class Node {
             }
             this.add(document);
         } else if (message.type == 'block mined') {
-            this.blockchain.addBlock(message.block);
+            var block = message.block;
+            for (var document of block.documents) {
+                this.incomingDocuments = this.incomingDocuments.filter(d => d.id != document.id);
+            }
+            this.blockchain.addBlock(block);
         } else if (message.type == 'send me your blooks, please') {
             var blocks = this.blockchain.chain.slice(message.startAt);
             this.peers.send(message.node, { type: 'my chain', blocks: blocks })
