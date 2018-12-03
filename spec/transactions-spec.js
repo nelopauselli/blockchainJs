@@ -43,4 +43,35 @@ describe("Transacciones y fondos", function () {
             expect(1).toBe(node.blockchain.pendingDocuments.length);
         }
     });
+
+    it("Doble gasto", function () {
+        wallet1.sendTo(wallet2.address, 90);
+        wallet1.sendTo(wallet3.address, 90);
+
+        for (let node of [node1, node2, node3]) {
+            node.processIncomingDocuments();
+            expect(1).toBe(node.blockchain.pendingDocuments.length);
+
+            expect(90).toBe(node.blockchain.getBalanceOfAddress(wallet2.address));
+            expect(0).toBe(node.blockchain.getBalanceOfAddress(wallet3.address));
+        }
+    });
+
+    it("Doble gasto después de minado", function () {
+        wallet1.sendTo(wallet2.address, 90);
+        wallet2.sendTo(wallet1.address, 50);
+        node1.processIncomingDocuments();
+        node1.mine();
+
+        wallet2.sendTo(wallet3.address, 50);
+        expect(1).toBe(node1.incomingDocuments.length);
+
+        for (let node of [node1, node2, node3]) {
+            node.processIncomingDocuments();
+            expect(0).toBe(node.blockchain.pendingDocuments.length);
+
+            expect(40).toBe(node.blockchain.getBalanceOfAddress(wallet2.address));
+            expect(0).toBe(node.blockchain.getBalanceOfAddress(wallet3.address));
+        }
+    });
 });
